@@ -1,0 +1,27 @@
+### Criar uma UF
+POST http://localhost:3000/ufs
+Content-Type: application/json
+
+{
+  "nome": "Distrito Federal",
+  "sigla": "DF"
+}
+
+### Criar uma cidade
+POST http://localhost:3000/cidades
+Content-Type: application/json
+
+{
+  "nome": "Brasília",
+  "ufId": 1
+}
+
+### Criar um estudante
+POST http://localhost:3000/estudantes
+Content-Type: application/json
+
+{
+  "nome": "Lucas",
+  "idade": 22,
+  "cidadeId": 1
+}
