@@ -1,4 +1,4 @@
-### Criar uma UF
+### Criar UF
 POST http://localhost:3000/ufs
 Content-Type: application/json
 
@@ -7,7 +7,7 @@ Content-Type: application/json
   "sigla": "DF"
 }
 
-### Criar uma cidade
+### Criar Cidade vinculada à UF 1
 POST http://localhost:3000/cidades
 Content-Type: application/json
 
@@ -16,7 +16,7 @@ Content-Type: application/json
   "ufId": 1
 }
 
-### Criar um estudante
+### Criar Estudante vinculado à Cidade 1
 POST http://localhost:3000/estudantes
 Content-Type: application/json
 
@@ -25,3 +25,21 @@ Content-Type: application/json
   "idade": 22,
   "cidadeId": 1
 }
+
+### Criar vários estudantes de uma cidade
+POST http://localhost:3000/cidades/1/estudantes
+Content-Type: application/json
+
+[
+  { "nome": "João", "idade": 18 },
+  { "nome": "Maria", "idade": 20 }
+]
+
+### Listar UFs com cidades
+GET http://localhost:3000/ufs
+
+### Listar cidades com estudantes
+GET http://localhost:3000/cidades
+
+### Listar estudantes com cidade
+GET http://localhost:3000/estudantes

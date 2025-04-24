@@ -1,26 +1,43 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Uf } from './entities/uf.entity';
 import { CreateUfDto } from './dto/create-uf.dto';
 import { UpdateUfDto } from './dto/update-uf.dto';
 
 @Injectable()
 export class UfsService {
-  create(createUfDto: CreateUfDto) {
-    return 'This action adds a new uf';
+  constructor(
+    @InjectRepository(Uf)
+    private ufRepository: Repository<Uf>,
+  ) {}
+
+  create(createUfDto: CreateUfDto): Promise<Uf> {
+    const uf = this.ufRepository.create(createUfDto);
+    return this.ufRepository.save(uf);
   }
 
-  findAll() {
-    return `This action returns all ufs`;
+  findAll(): Promise<Uf[]> {
+    return this.ufRepository.find({ relations: ['cidades'] });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} uf`;
+  async findOne(id: number): Promise<Uf> {
+    const uf = await this.ufRepository.findOne({
+      where: { id },
+      relations: ['cidades'],
+    });
+    if (!uf) {
+      throw new Error('UF não encontrada');
+    }
+    return uf;
   }
 
-  update(id: number, updateUfDto: UpdateUfDto) {
-    return `This action updates a #${id} uf`;
+  async update(id: number, updateUfDto: UpdateUfDto): Promise<Uf> {
+    await this.ufRepository.update(id, updateUfDto);
+    return this.findOne(id);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} uf`;
+  async remove(id: number): Promise<void> {
+    await this.ufRepository.delete(id);
   }
 }

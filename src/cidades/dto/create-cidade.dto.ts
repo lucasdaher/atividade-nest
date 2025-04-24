@@ -1,1 +1,4 @@
-export class CreateCidadeDto {}
+export class CreateCidadeDto {
+  nome: string;
+  ufId: number;
+}

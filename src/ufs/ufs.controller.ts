@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { UfsService } from './ufs.service';
 import { CreateUfDto } from './dto/create-uf.dto';
 import { UpdateUfDto } from './dto/update-uf.dto';

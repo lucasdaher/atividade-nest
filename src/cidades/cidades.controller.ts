@@ -1,15 +1,40 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { CidadesService } from './cidades.service';
 import { CreateCidadeDto } from './dto/create-cidade.dto';
 import { UpdateCidadeDto } from './dto/update-cidade.dto';
+import { CreateEstudanteDto } from '../estudantes/dto/create-estudante.dto';
+import { EstudantesService } from '../estudantes/estudantes.service';
 
 @Controller('cidades')
 export class CidadesController {
-  constructor(private readonly cidadesService: CidadesService) {}
+  constructor(
+    private readonly cidadesService: CidadesService,
+    private readonly estudantesService: EstudantesService,
+  ) {}
 
   @Post()
   create(@Body() createCidadeDto: CreateCidadeDto) {
     return this.cidadesService.create(createCidadeDto);
+  }
+
+  @Post(':id/estudantes')
+  async addEstudantes(
+    @Param('id') id: string,
+    @Body() estudantes: CreateEstudanteDto[],
+  ) {
+    return Promise.all(
+      estudantes.map((estudante) =>
+        this.estudantesService.create({ ...estudante, cidadeId: +id }),
+      ),
+    );
   }
 
   @Get()
